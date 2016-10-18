@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Etch-a-Sketch</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Muli"/>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
+
+</script>
+
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+	$("#container").width($("#container").height());
+	
+	function set_boxes(xboxes) {
+		var box_w = $("#container").width()/xboxes;
+
+		for (i=0; i < xboxes*xboxes; i++) {
+			$("#container").append('<div class="etchbox" id='+i+'></div>');
+		};
+		$(".etchbox").width(box_w).height(box_w);
+		//This needs to be inside the function that creates the etchboxes so whenever
+		//we run the function to update boxes, they maintain the hover function
+		$(".etchbox").mouseenter(function(){
+			var alpha = Number(0.05) + Number(($(this).css("background-color")).split(',')[3].slice(0, -1));
+			//Number() is the JS way to convert to a number
+			$(this).css({"background-color":"rgba(0,0,0,"+alpha+")"});
+		});
+	};
+	
+	$("#clear").click(function(){
+		$(".etchbox").css({"background-color":"rgba(255,0,0,0)"});
+	});
+
+	$("#button").click(function(){
+		x_box = $("#x").val();
+		$(".etchbox").css({"background-color":"rgba(255,0,0,0)"});
+		$(".container").remove(".etchbox");
+		set_boxes(x_box);
+	});
+	set_boxes(20);
+});
+
+
+
+</script>
+</head>
+
+<body>
+
+<div id="header">
+	<button id="clear">clear dat</button>
+	<form>
+		<input type="text" name="name" id="x">
+		<input type="button" value="# of boxes" id="button">
+	</form>
+</div>
+
+<div id="container">
+
+</div>
+
+</body>
+</html>
