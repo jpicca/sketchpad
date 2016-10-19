@@ -12,38 +12,46 @@
 
 <script type="text/javascript">
 
+var alpha = 0;
 
 $(document).ready(function(){
 
 	$("#container").width($("#container").height());
 	
 	function set_boxes(xboxes) {
+		console.log(xboxes)
 		var box_w = $("#container").width()/xboxes;
 
 		for (i=0; i < xboxes*xboxes; i++) {
 			$("#container").append('<div class="etchbox" id='+i+'></div>');
 		};
 		$(".etchbox").width(box_w).height(box_w);
-		//This needs to be inside the function that creates the etchboxes so whenever
-		//we run the function to update boxes, they maintain the hover function
-		$(".etchbox").mouseenter(function(){
-			var alpha = Number(0.05) + Number(($(this).css("background-color")).split(',')[3].slice(0, -1));
-			//Number() is the JS way to convert to a number
-			$(this).css({"background-color":"rgba(0,0,0,"+alpha+")"});
-		});
+
+		//Need to call the color function each time we update boxes so that they have the mouseenter effect
+		color();
 	};
 	
 	$("#clear").click(function(){
-		$(".etchbox").css({"background-color":"rgba(255,0,0,0)"});
+		$(".etchbox").css({"background-color":"rgba(0,0,0,0)"});
 	});
 
 	$("#button").click(function(){
 		x_box = $("#x").val();
-		$(".etchbox").css({"background-color":"rgba(255,0,0,0)"});
-		$(".container").remove(".etchbox");
+		$(".etchbox").css({"background-color":"rgba(0,0,0,0)"});
+		$(".etchbox").remove();
 		set_boxes(x_box);
 	});
+
+	//Initial box dimensions to get things started
 	set_boxes(20);
+
+	function color() {
+		$(".etchbox").mouseenter(function(){
+			alpha = Number(0.05) + Number(($(this).css("background-color")).split(',')[3].slice(0, -1));
+			//Number() is the JS way to convert to a number
+			$(this).css({"background-color":"rgba(0,0,0,"+alpha+")"});
+		});
+	};
 });
 
 
